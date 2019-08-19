@@ -109,7 +109,8 @@ class OpenIDManager implements OpenIDManagerInterface
     private function discover($url)
     {
         $response = $this->httpClient->request('GET', $url);
-        if (!preg_match('#application/xrds\+xml#', $response->getHeader('Content-Type'))) {
+        $contentType = $response->getHeader('Content-Type');
+        if (empty($contentType) || !preg_match('#application/xrds\+xml#', $contentType[0])) {
             $e = new BadResponseException('Unexpected Content-Type', null, $response);
             throw $e;
         }
