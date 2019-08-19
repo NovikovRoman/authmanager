@@ -1,0 +1,22 @@
+{
+  "name": "noroman/authmanager",
+  "description": "Auth Manager",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Novikov Roman",
+      "email": "service.for.roman@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.1",
+    "guzzlehttp/guzzle": "^6.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "AuthManager\\": "src/"
+    }
+  }
+}
