@@ -73,17 +73,18 @@ class OpenIDManager implements OpenIDManagerInterface
             ->request('POST', $this->discover($claimedId), ['form_params' => $params,]);
 
         $ar = array_diff(explode("\n", $response->getBody()->getContents()), ['']);
+
         $respParams = [];
         foreach ($ar as $item) {
             list($name, $value) = explode(':', $item, 2);
             $respParams[$name] = $value;
         }
 
-        if ($respParams['is_value'] == 'true') {
+        if (isset($respParams['is_valid']) && $respParams['is_valid'] == 'true') {
             return $this->getIdFromIdentity($requestParameters['openid_identity']);
         }
 
-        $this->invalidateHandle = empty($respParams['is_value']) ? '' : $respParams['invalidate_handle'];
+        $this->invalidateHandle = empty($respParams['invalidate_handle']) ? '' : $respParams['invalidate_handle'];
 
         return '';
     }
