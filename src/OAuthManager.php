@@ -6,6 +6,7 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 
 class OAuthManager implements OAuthManagerInterface
@@ -69,7 +70,7 @@ class OAuthManager implements OAuthManagerInterface
         $body = http_build_query([
             'client_id' => $this->client->getClientID(),
             'client_secret' => $this->client->getSecretKey(),
-            'grant_type' => 'client_credentials',
+            'grant_type' => 'authorization_code',
             'code' => $params['code'],
             'redirect_uri' => $this->client->getRedirectUri(),
             'scope' => implode(' ', $this->client->getScope()),
