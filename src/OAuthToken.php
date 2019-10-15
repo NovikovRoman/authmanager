@@ -8,6 +8,7 @@ class OAuthToken implements OAuthTokenInterface
     private $accessToken;
     private $tokenType;
     private $expiresIn;
+    private $expiresAt;
     private $refreshToken;
     private $scope;
 
@@ -19,7 +20,8 @@ class OAuthToken implements OAuthTokenInterface
     {
         $this->accessToken = empty($token['access_token']) ? '' : $token['access_token'];
         $this->tokenType = empty($token['token_type']) ? '' : $token['token_type'];
-        $this->expiresIn = empty($token['expires_in']) ? '' : $token['expires_in'];
+        $this->expiresIn = empty($token['expires_in']) ? 0 : $token['expires_in'];
+        $this->expiresAt = time() + $this->expiresIn;
         $this->refreshToken = empty($token['refresh_token']) ? '' : $token['refresh_token'];
         $this->scope = empty($token['scope']) ? '' : $token['scope'];
 
@@ -41,6 +43,11 @@ class OAuthToken implements OAuthTokenInterface
     public function getExpiresIn(): int
     {
         return $this->expiresIn;
+    }
+
+    public function isExpired(): bool
+    {
+        return $this->expiresAt < time();
     }
 
     public function getRefreshToken(): string
