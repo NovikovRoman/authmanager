@@ -4,7 +4,7 @@ namespace AuthManager;
 
 interface OAuthClientInterface
 {
-    public function __construct($id, $secret, $scope, $redirectUri);
+    public function __construct(string $id, string $secret, array $scope, string $redirectUri);
 
     public function getAuthorizeURL(): string;
 
