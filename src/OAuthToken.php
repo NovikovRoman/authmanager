@@ -23,7 +23,10 @@ class OAuthToken implements OAuthTokenInterface
         $this->expiresIn = empty($token['expires_in']) ? 0 : $token['expires_in'];
         $this->expiresAt = time() + $this->expiresIn;
         $this->refreshToken = empty($token['refresh_token']) ? '' : $token['refresh_token'];
-        $this->scope = empty($token['scope']) ? '' : $token['scope'];
+        $this->scope = '';
+        if (!empty($token['scope'])) {
+            $this->scope = is_array($token['scope']) ? implode(' ', $token['scope']) : $token['scope'];
+        }
 
         $this->error = empty($token['error']) ? '' : $token['error'];
         $this->errorDescription = empty($token['error_description']) ? '' : $token['error_description'];
