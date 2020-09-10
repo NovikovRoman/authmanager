@@ -51,7 +51,8 @@ class OAuthManager implements OAuthManagerInterface
     public function getToken(string $url, string $state): OAuthTokenInterface
     {
         parse_str(parse_url($url, PHP_URL_QUERY), $params);
-        if ($state != $params['state']) {
+        $paramState = empty($params['state']) ? '' : $params['state'];
+        if ($state != $paramState) {
             throw new Exception(
                 'Not equal state.' . json_encode($params, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
         }
@@ -68,7 +69,7 @@ class OAuthManager implements OAuthManagerInterface
         $body = http_build_query([
             'client_id' => $this->client->getClientID(),
             'client_secret' => $this->client->getSecretKey(),
-            'grant_type' => 'client_credentials',
+            'grant_type' => 'authorization_code',
             'code' => $params['code'],
             'redirect_uri' => $this->client->getRedirectUri(),
             'scope' => implode(' ', $this->client->getScope()),
